@@ -38,10 +38,12 @@ class ArrayList<T> {
     }
 
     public T get(int index) {
+        checkIndex(index);
         return (T) array[index];
     }
 
     public T remove(int index) {
+        checkIndex(index);
         Object[] array = new Object[size - 1];
         for (int i = 0; i < index; i++) {
             array[i] = this.array[i];
@@ -79,6 +81,7 @@ class ArrayList<T> {
     }
 
     public T set(int index, T element) {
+        checkIndex(index);
         T oldValue = (T) this.array[index];
         this.array[index] = element;
         return oldValue;
@@ -120,6 +123,11 @@ class ArrayList<T> {
 
     private void rangeCheckForAdd(int index) {
         if (index > size || index < 0)
+            throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
+    }
+
+    private void checkIndex(int index) {
+        if (index >= size || index < 0)
             throw new IndexOutOfBoundsException(outOfBoundsMsg(index));
     }
 
