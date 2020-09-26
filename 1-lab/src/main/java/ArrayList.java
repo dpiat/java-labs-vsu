@@ -1,5 +1,3 @@
-import java.util.Iterator;
-
 class ArrayList<T> {
     private int size ;
     private Object[] array;
