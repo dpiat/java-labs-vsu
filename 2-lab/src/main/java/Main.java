@@ -35,7 +35,10 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(CalculateExpression("(2+1)*3"));
+        System.out.println(CalculateExpression("(22+1)*356"));
+        while (true) {
+            System.out.println(CalculateExpression(scanner.nextLine()));
+        }
     }
 
     public static double CalculateExpression(String expr) throws Exception {
@@ -47,14 +50,21 @@ public class Main {
 
         int pos = 0;
         String token;
+        String number = "";
         String prevToken;
         do {
             token = expression.get(pos);
 
             if (digits.contains(token)) {
-                operands.push(Double.parseDouble(token));
+                number += token;
+                //operands.push(Double.parseDouble(token));
             }
             else if (simpleFunctions.contains(token) || brackets.contains(token)) {
+                if (number != "") {
+                    operands.push(Double.parseDouble(number));
+                    number = "";
+                }
+
                 if (token.equals(")")) {
                     while (functions.size() > 0 && !functions.peek().equals("("))
                         popFunction(operands, functions);
