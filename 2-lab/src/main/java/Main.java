@@ -7,7 +7,7 @@ public class Main {
     public static List<String> simpleFunctions = new ArrayList<String>(
             Arrays.asList("^", "/", "*", "+", "-")
     );
-    public static List<String> functions = new ArrayList<String>(
+    public static List<String> Functions = new ArrayList<String>(
             Arrays.asList("sqrt", "sin", "cos", "log", "abs")
     );
     public static List<String> brackets = new ArrayList<String>(
@@ -35,10 +35,7 @@ public class Main {
 
     public static void main(String[] args) throws Exception {
         Scanner scanner = new Scanner(System.in);
-        System.out.println(CalculateExpression("(22+1)*356"));
-        while (true) {
-            System.out.println(CalculateExpression(scanner.nextLine()));
-        }
+        System.out.println(CalculateExpression("sqrt(sqrt(81))"));
     }
 
     public static double CalculateExpression(String expr) throws Exception {
@@ -51,6 +48,7 @@ public class Main {
         int pos = 0;
         String token;
         String number = "";
+        String function = "";
         String prevToken;
         do {
             token = expression.get(pos);
@@ -74,6 +72,33 @@ public class Main {
                     while (canPop(token, functions))
                         popFunction(operands, functions);
                     functions.push(token);
+                }
+            }
+            else {
+                function += token;
+                if (Functions.contains(function)) {
+                    int functionBracketStart = pos + 1;
+                    int functionBracketEnd = 0;
+                    int bracketsSum = 1;
+
+                    for (int i = functionBracketStart + 1; i < expression.size(); i++) {
+                        if (expression.get(i).equals("(")) bracketsSum++;
+                        if (expression.get(i).equals(")")) bracketsSum--;
+                        if (bracketsSum == 0) {
+                            functionBracketEnd = i;
+                            pos = functionBracketEnd;
+                            break;
+                        }
+                    }
+
+                    String functionParameter = expr.substring(functionBracketStart, functionBracketEnd-1);
+
+                    if (function.equals("sqrt")) {
+                         double res = Math.sqrt(CalculateExpression( functionParameter ));
+                         operands.add(res);
+                        // получить параметры
+                        // вычислить значение функции
+                    }
                 }
             }
             prevToken = token;
