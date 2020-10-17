@@ -68,7 +68,7 @@ public final class Parser {
 
         ArrayList<String> expression = toStringArray("(" + formatExpression(expr) + ")");
 
-        // стек для числа
+        // стек для операндов (чисел)
         Stack<Double> operands = new Stack<>();
         // стек для операций
         Stack<String> functions = new Stack<>();
