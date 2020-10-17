@@ -73,7 +73,10 @@ public final class Parser {
         // стек для операций
         Stack<String> functions = new Stack<>();
 
-
+        // Мы будем идти слева на право, добавляя операнды в один стек,
+        // а операции в другой. При каждом добавлении новой операции мы
+        // будем пытаться вытолкнуть из стека старые, руководствуясь
+        // приоритетами операций.
         int pos = 0;
         String token;
         String number = "";
@@ -148,6 +151,10 @@ public final class Parser {
         return operands.pop();
     }
 
+    /**
+     * Функция, которая выталкивает из стека два операнда, выполняет операцию над ними,
+     * кладет результат в стек с операндами
+     */
     private static void popFunction(Stack<Double> operands, Stack<String> functions) {
         double b = operands.pop();
         double a = operands.pop();
@@ -178,6 +185,9 @@ public final class Parser {
         return p1 >= 0 && p2 >= 0 && p1 >= p2;
     }
 
+    /**
+     * Получаем приоритет операции
+     */
     private static int getPriotity(String op) throws Exception {
         switch (op) {
             case "(":
