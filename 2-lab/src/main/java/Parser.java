@@ -4,92 +4,44 @@ import java.util.List;
 import java.util.Stack;
 
 /**
- * The class {@code Math} contains methods for performing basic
- * numeric operations such as the elementary exponential, logarithm,
- * square root, and trigonometric functions.
- *
- * <p>Unlike some of the numeric methods of class
- * {@code StrictMath}, all implementations of the equivalent
- * functions of class {@code Math} are not defined to return the
- * bit-for-bit same results.  This relaxation permits
- * better-performing implementations where strict reproducibility is
- * not required.
- *
- * <p>By default many of the {@code Math} methods simply call
- * the equivalent method in {@code StrictMath} for their
- * implementation.  Code generators are encouraged to use
- * platform-specific native libraries or microprocessor instructions,
- * where available, to provide higher-performance implementations of
- * {@code Math} methods.  Such higher-performance
- * implementations still must conform to the specification for
- * {@code Math}.
- *
- * <p>The quality of implementation specifications concern two
- * properties, accuracy of the returned result and monotonicity of the
- * method.  Accuracy of the floating-point {@code Math} methods is
- * measured in terms of <i>ulps</i>, units in the last place.  For a
- * given floating-point format, an {@linkplain #ulp(double) ulp} of a
- * specific real number value is the distance between the two
- * floating-point values bracketing that numerical value.  When
- * discussing the accuracy of a method as a whole rather than at a
- * specific argument, the number of ulps cited is for the worst-case
- * error at any argument.  If a method always has an error less than
- * 0.5 ulps, the method always returns the floating-point number
- * nearest the exact result; such a method is <i>correctly
- * rounded</i>.  A correctly rounded method is generally the best a
- * floating-point approximation can be; however, it is impractical for
- * many floating-point methods to be correctly rounded.  Instead, for
- * the {@code Math} class, a larger error bound of 1 or 2 ulps is
- * allowed for certain methods.  Informally, with a 1 ulp error bound,
- * when the exact result is a representable number, the exact result
- * should be returned as the computed result; otherwise, either of the
- * two floating-point values which bracket the exact result may be
- * returned.  For exact results large in magnitude, one of the
- * endpoints of the bracket may be infinite.  Besides accuracy at
- * individual arguments, maintaining proper relations between the
- * method at different arguments is also important.  Therefore, most
- * methods with more than 0.5 ulp errors are required to be
- * <i>semi-monotonic</i>: whenever the mathematical function is
- * non-decreasing, so is the floating-point approximation, likewise,
- * whenever the mathematical function is non-increasing, so is the
- * floating-point approximation.  Not all approximations that have 1
- * ulp accuracy will automatically meet the monotonicity requirements.
- *
- * <p>
- * The platform uses signed two's complement integer arithmetic with
- * int and long primitive types.  The developer should choose
- * the primitive type to ensure that arithmetic operations consistently
- * produce correct results, which in some cases means the operations
- * will not overflow the range of values of the computation.
- * The best practice is to choose the primitive type and algorithm to avoid
- * overflow. In cases where the size is {@code int} or {@code long} and
- * overflow errors need to be detected, the methods {@code addExact},
- * {@code subtractExact}, {@code multiplyExact}, {@code toIntExact},
- * {@code incrementExact}, {@code decrementExact} and {@code negateExact}
- * throw an {@code ArithmeticException} when the results overflow.
- * For the arithmetic operations divide and absolute value, overflow
- * occurs only with a specific minimum or maximum value and
- * should be checked against the minimum or maximum as appropriate.
- *
+ * Parser - это парсер математических выражений. Выражение может содержать числа,
+ * знаки операций, скобки. В случае, если выражение записано корректно, вычисляет
+ * значение, в противном случае — выводит сообщение об ошибке.
  * @author  Piataikin D.
  */
 public final class Parser {
 
     private Parser() {}
 
+    /**
+     * Список допустимых чисел
+     */
     private static List<String> digits = new ArrayList<String>(
             Arrays.asList("0", "1", "2", "3", "4", "5", "6", "7", "8", "9", ",")
     );
+    /**
+     * Список операций
+     */
     private static List<String> simpleFunctions = new ArrayList<String>(
             Arrays.asList("^", "/", "*", "+", "-")
     );
+    /**
+     * Список функий. Если необходимы другие, то нужно дописать название функции в этот массив и
+     * добавить условие в {@link #calculateExpression(String) calculateExpression}
+     */
     private static List<String> Functions = new ArrayList<String>(
             Arrays.asList("sqrt", "sin", "cos")
     );
+    /**
+     * Список скобок
+     */
     private static List<String> brackets = new ArrayList<String>(
             Arrays.asList("(", ")")
     );
 
+    /**
+     * Убирает лишние пробелы.
+     */
     private static String formatExpression(String expression) {
         return expression.replaceAll(" ", "");
     }
@@ -98,6 +50,9 @@ public final class Parser {
         return Character.toString(c);
     }
 
+    /**
+     * Делает из выражение массив символов
+     */
     private static ArrayList<String> toStringArray(String expression) {
         ArrayList<String> arrayList = new ArrayList<>();
         for (int i = 0; i < expression.length(); i++) {
@@ -106,11 +61,16 @@ public final class Parser {
         return arrayList;
     }
 
-    public static double CalculateExpression(String expr) throws Exception {
+    /**
+     * Основная функция, которая вычисляет значение выражения
+     */
+    public static double calculateExpression(String expr) throws Exception {
 
         ArrayList<String> expression = toStringArray("(" + formatExpression(expr) + ")");
 
+        // стек для числа
         Stack<Double> operands = new Stack<>();
+        // стек для операций
         Stack<String> functions = new Stack<>();
 
 
@@ -118,13 +78,12 @@ public final class Parser {
         String token;
         String number = "";
         String function = "";
-        String prevToken;
         do {
             token = expression.get(pos);
 
+            // для чтения чисел, состоящих из более одной цифры
             if (digits.contains(token)) {
                 number += token;
-                //operands.push(Double.parseDouble(token));
             }
             else if (simpleFunctions.contains(token) || brackets.contains(token)) {
                 if (number != "") {
@@ -160,25 +119,27 @@ public final class Parser {
                         }
                     }
 
+                    // можно добавить сплитер, который вернет аргументы функции
+                    // Func(x1, x2,..., xn), split("x1, x2,..., xn") -> ["x1", "x2",..., "xn"]
                     String functionParameter = expr.substring(functionBracketStart, functionBracketEnd-1);
 
+                    // работает только для функций с 1 аргументом
                     if (function.equals("sqrt")) {
-                        double res = Math.sqrt(CalculateExpression( functionParameter ));
+                        double res = Math.sqrt(calculateExpression( functionParameter ));
                         operands.add(res);
                     }
 
                     if (function.equals("sin")) {
-                        double res = Math.sin(CalculateExpression( functionParameter ));
+                        double res = Math.sin(calculateExpression( functionParameter ));
                         operands.add(res);
                     }
 
                     if (function.equals("cos")) {
-                        double res = Math.cos(CalculateExpression( functionParameter ));
+                        double res = Math.cos(calculateExpression( functionParameter ));
                         operands.add(res);
                     }
                 }
             }
-            prevToken = token;
             pos++;
         }
         while (token != null && pos + 1 <= expression.size());
