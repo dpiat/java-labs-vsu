@@ -83,4 +83,35 @@ public class Tester {
                 return -1;
         }
     }
+
+    private long testRemoveFrom(List<Object> list, Position position, int k) {
+        switch (position) {
+            case BEGIN: {
+                Date startTime = new Date();
+                for(int i = 0; i < k; i++) {
+                    list.remove(0);
+                }
+                Date finishTime = new Date();
+                return finishTime.getTime() - startTime.getTime();
+            }
+            case MIDDLE: {
+                Date startTime = new Date();
+                for(int i = 0; i < k; i++) {
+                    list.remove(list.size() / 2);
+                }
+                Date finishTime = new Date();
+                return finishTime.getTime() - startTime.getTime();
+            }
+            case END: {
+                Date startTime = new Date();
+                for(int i = 0; i < k; i++) {
+                    list.remove(list.size() - 1);
+                }
+                Date finishTime = new Date();
+                return finishTime.getTime() - startTime.getTime();
+            }
+            default:
+                return -1;
+        }
+    }
 }
