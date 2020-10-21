@@ -1,2 +1,5 @@
-public class Method {
+enum  Method {
+    ADD,
+    GET,
+    REMOVE
 }

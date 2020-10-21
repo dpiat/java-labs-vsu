@@ -4,13 +4,13 @@ public class Tester {
 
     private Tester() {};
 
-    private List<Object> arrayList;
-    private List<Object> linkedList;
+    private static List<Object> arrayList;
+    private static List<Object> linkedList;
 
-    private int N;
-    private int k;
+    private static int N;
+    private static int k;
 
-    private void setup(int N, int k) {
+    private static void setup(int N, int k) {
         setN(N);
         setK(k);
         arrayList = new ArrayList<Object>();
@@ -21,11 +21,41 @@ public class Tester {
         linkedList.addAll(arrayList);
     }
 
-    public void testPerformance(int N, int k) {
-
+    public static void testPerformance(int N, int k) {
+        setup(N, k);
+        System.out.println(parseResult(Method.ADD, testAdd()));
+        System.out.println(parseResult(Method.GET, testGet()));
+        System.out.println(parseResult(Method.REMOVE, testRemove()));
     }
 
-    private Map<Position, List<Long>> testAdd() {
+    private static String parseResult(Method method, Map<Position, List<Long>> map) {
+        String res = "";
+
+        switch (method) {
+            case ADD: {
+                res += "_______________ADD___________\n";
+                break;
+            }
+            case GET: {
+                res += "_______________GET___________\n";
+                break;
+            }
+            case REMOVE: {
+                res += "______________REMOVE_________\n";
+                break;
+            }
+        }
+
+        res += String.format("%6s|%10s|%10s|\n", "      ", "ArrayList", "LinkedList");
+        res += String.format("%6s|%10s|%10s|\n", Position.BEGIN, map.get(Position.BEGIN).get(0), map.get(Position.BEGIN).get(1));
+        res += String.format("%6s|%10s|%10s|\n", Position.MIDDLE, map.get(Position.MIDDLE).get(0), map.get(Position.MIDDLE).get(1));
+        res += String.format("%6s|%10s|%10s|\n", Position.END, map.get(Position.END).get(0), map.get(Position.END).get(1));
+        res += "-----------------------------\n";
+
+        return res;
+    }
+
+    private static Map<Position, List<Long>> testAdd() {
         Map<Position, List<Long>> map = new HashMap<Position, List<Long>>();
         List<Long> time = new ArrayList<Long>();
 
@@ -46,7 +76,7 @@ public class Tester {
         return map;
     }
 
-    private Map<Position, List<Long>> testGet() {
+    private static Map<Position, List<Long>> testGet() {
         Map<Position, List<Long>> map = new HashMap<Position, List<Long>>();
         List<Long> time = new ArrayList<Long>();
 
@@ -67,7 +97,7 @@ public class Tester {
         return map;
     }
 
-    private Map<Position, List<Long>> testRemove() {
+    private static Map<Position, List<Long>> testRemove() {
         Map<Position, List<Long>> map = new HashMap<Position, List<Long>>();
         List<Long> time = new ArrayList<Long>();
 
@@ -88,7 +118,7 @@ public class Tester {
         return map;
     }
 
-    private long testAddTo(List<Object> list, Position position) {
+    private static long testAddTo(List<Object> list, Position position) {
         switch (position) {
             case BEGIN: {
                 Date startTime = new Date();
@@ -119,7 +149,7 @@ public class Tester {
         }
     }
 
-    private long testGetFrom(List<Object> list, Position position) {
+    private static long testGetFrom(List<Object> list, Position position) {
         switch (position) {
             case BEGIN: {
                 Date startTime = new Date();
@@ -150,7 +180,7 @@ public class Tester {
         }
     }
 
-    private long testRemoveFrom(List<Object> list, Position position) {
+    private static long testRemoveFrom(List<Object> list, Position position) {
         switch (position) {
             case BEGIN: {
                 Date startTime = new Date();
@@ -181,11 +211,11 @@ public class Tester {
         }
     }
 
-    public void setN(int n) {
+    public static void setN(int n) {
         N = n;
     }
 
-    public void setK(int k) {
-        this.k = k;
+    public static void setK(int K) {
+        k = K;
     }
 }
