@@ -1,7 +1,4 @@
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class Tester {
 
@@ -10,19 +7,88 @@ public class Tester {
     private List<Object> arrayList;
     private List<Object> linkedList;
 
-    private void setup(int N) {
+    private int N;
+    private int k;
+
+    private void setup(int N, int k) {
+        setN(N);
+        setK(k);
         arrayList = new ArrayList<Object>();
+        linkedList = new LinkedList<Object>();
         for (int i = 0; i < N; i++) {
             arrayList.add(new Object());
         }
         linkedList.addAll(arrayList);
     }
 
-    public void testPerformance() {
+    public void testPerformance(int N, int k) {
 
     }
 
-    private long testAddTo(List<Object> list, Position position, int k) {
+    private Map<Position, List<Long>> testAdd() {
+        Map<Position, List<Long>> map = new HashMap<Position, List<Long>>();
+        List<Long> time = new ArrayList<Long>();
+
+        time.add(testAddTo(linkedList, Position.BEGIN));
+        time.add(testAddTo(arrayList, Position.BEGIN));
+        map.put(Position.BEGIN, time);
+        time = new ArrayList<Long>();
+
+        time.add(testAddTo(linkedList, Position.MIDDLE));
+        time.add(testAddTo(arrayList, Position.MIDDLE));
+        map.put(Position.MIDDLE, time);
+        time = new ArrayList<Long>();
+
+        time.add(testAddTo(linkedList, Position.END));
+        time.add(testAddTo(arrayList, Position.END));
+        map.put(Position.END, time);
+
+        return map;
+    }
+
+    private Map<Position, List<Long>> testGet() {
+        Map<Position, List<Long>> map = new HashMap<Position, List<Long>>();
+        List<Long> time = new ArrayList<Long>();
+
+        time.add(testGetFrom(linkedList, Position.BEGIN));
+        time.add(testGetFrom(arrayList, Position.BEGIN));
+        map.put(Position.BEGIN, time);
+        time = new ArrayList<Long>();
+
+        time.add(testGetFrom(linkedList, Position.MIDDLE));
+        time.add(testGetFrom(arrayList, Position.MIDDLE));
+        map.put(Position.MIDDLE, time);
+        time = new ArrayList<Long>();
+
+        time.add(testGetFrom(linkedList, Position.END));
+        time.add(testGetFrom(arrayList, Position.END));
+        map.put(Position.END, time);
+
+        return map;
+    }
+
+    private Map<Position, List<Long>> testRemove() {
+        Map<Position, List<Long>> map = new HashMap<Position, List<Long>>();
+        List<Long> time = new ArrayList<Long>();
+
+        time.add(testRemoveFrom(linkedList, Position.BEGIN));
+        time.add(testRemoveFrom(arrayList, Position.BEGIN));
+        map.put(Position.BEGIN, time);
+        time = new ArrayList<Long>();
+
+        time.add(testRemoveFrom(linkedList, Position.MIDDLE));
+        time.add(testRemoveFrom(arrayList, Position.MIDDLE));
+        map.put(Position.MIDDLE, time);
+        time = new ArrayList<Long>();
+
+        time.add(testRemoveFrom(linkedList, Position.END));
+        time.add(testRemoveFrom(arrayList, Position.END));
+        map.put(Position.END, time);
+
+        return map;
+    }
+
+    private long testAddTo(List<Object> list, Position position) {
         switch (position) {
             case BEGIN: {
                 Date startTime = new Date();
@@ -53,7 +119,7 @@ public class Tester {
         }
     }
 
-    private long testGetFrom(List<Object> list, Position position, int k) {
+    private long testGetFrom(List<Object> list, Position position) {
         switch (position) {
             case BEGIN: {
                 Date startTime = new Date();
@@ -84,7 +150,7 @@ public class Tester {
         }
     }
 
-    private long testRemoveFrom(List<Object> list, Position position, int k) {
+    private long testRemoveFrom(List<Object> list, Position position) {
         switch (position) {
             case BEGIN: {
                 Date startTime = new Date();
@@ -113,5 +179,13 @@ public class Tester {
             default:
                 return -1;
         }
+    }
+
+    public void setN(int n) {
+        N = n;
+    }
+
+    public void setK(int k) {
+        this.k = k;
     }
 }
