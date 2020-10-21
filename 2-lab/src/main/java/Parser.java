@@ -79,17 +79,21 @@ public final class Parser {
         // приоритетами операций.
         int pos = 0;
         String token;
+        String prevToken = "";
         String number = "";
         String function = "";
         do {
             token = expression.get(pos);
 
             // для чтения чисел, состоящих из более одной цифры
+            if (prevToken.equals("(") && token.equals("-")) {
+                operands.push(0.0);
+            }
             if (digits.contains(token)) {
                 number += token;
             }
             else if (simpleFunctions.contains(token) || brackets.contains(token)) {
-                if (number != "") {
+                if (!number.equals("")) {
                     operands.push(Double.parseDouble(number));
                     number = "";
                 }
@@ -144,6 +148,7 @@ public final class Parser {
                 }
             }
             pos++;
+            prevToken = token;
         }
         while (token != null && pos + 1 <= expression.size());
         if (operands.size() > 1 || functions.size() > 0)
