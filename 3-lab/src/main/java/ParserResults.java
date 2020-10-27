@@ -3,8 +3,16 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * This class printed results of testing
+ */
 public class ParserResults {
 
+    /**
+     * This is main method
+     * @param N is the initial size of list
+     * @param k is the count iterations
+     */
     public static void testPerformance(int N, int k) {
         Tester tester1 = new Tester(new ArrayList<Object>(), N, k);
         Tester tester2 = new Tester(new LinkedList<Object>(), N, k);
@@ -14,6 +22,13 @@ public class ParserResults {
         System.out.println(parseResult(Method.REMOVE, tester1.testRemove(), tester2.testRemove()));
     }
 
+    /**
+     * This method reads result and return them in tabular form
+     * @param method that is being tested
+     * @param map1 a speed map of ArrayList
+     * @param map2 a speed map of LinkedList
+     * @return tabular form
+     */
     private static String parseResult(Method method, Map<Position, Long> map1, Map<Position, Long> map2) {
         String res = "";
 
