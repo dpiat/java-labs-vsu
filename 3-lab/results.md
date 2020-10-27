@@ -16,7 +16,7 @@ ArrayList: 1156 ms
 
 ArrayList is faster
 
----Insert elements to middle( 50k )
+---Insert elements to end( 50k )
 
 LinkedList: 71564 ms
 
