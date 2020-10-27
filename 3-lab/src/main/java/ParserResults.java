@@ -15,7 +15,7 @@ public class ParserResults {
      */
     public static void testPerformance(int N, int k) {
         Tester tester1 = new Tester(new ArrayList<Object>(), N, k);
-        Tester tester2 = new Tester(new LinkedList<Object>(), N, k);
+        Tester tester2 = new TesterLinkedList(new LinkedList<Object>(), N, k);
 
         System.out.println(parseResult(Method.ADD, tester1.testAdd(), tester2.testAdd()));
         System.out.println(parseResult(Method.GET, tester1.testGet(), tester2.testGet()));
