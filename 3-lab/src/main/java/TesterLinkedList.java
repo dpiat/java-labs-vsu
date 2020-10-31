@@ -9,6 +9,7 @@ public class TesterLinkedList extends Tester {
     public TesterLinkedList(LinkedList<Object> list, int N, int k) {
         super(N, k);
         this.linkedList = list;
+        setup(N);
     }
 
     /**

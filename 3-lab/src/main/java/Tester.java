@@ -3,7 +3,7 @@ import java.util.*;
 /**
  * This class tests the speed of a list methods
  */
-public abstract class Tester {
+public class Tester {
 
     /**
      * The count iterations which use in testing add, get, remove
@@ -17,7 +17,6 @@ public abstract class Tester {
 
     public Tester(int N, int k) {
         this.k = k;
-        setup(N);
     }
 
     public Tester(List<Object> list, int N, int k) {
