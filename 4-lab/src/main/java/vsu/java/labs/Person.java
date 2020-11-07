@@ -63,4 +63,15 @@ public class Person {
     public void setSalary(long salary) {
         this.salary = salary;
     }
+
+    @Override
+    public String toString() {
+        return "Person{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", gender='" + gender + '\'' +
+                ", department=" + department +
+                ", salary=" + salary +
+                '}';
+    }
 }

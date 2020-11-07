@@ -8,11 +8,14 @@ public class PersonFactory {
 
     public Person getPerson(String name, String gender, Department department, long salary) {
         for (Person person : personSet) {
-            if (person.getName().equals(name)) {
+            if (person.getName().equals(name) &&
+                person.getGender().equals(gender) &&
+                person.getDepartment().equals(department) &&
+                person.getSalary() == salary) {
                 return person;
             }
         }
-        Person person = new Person();
+        Person person = new Person(name, gender, department, salary);
         personSet.add(person);
         return person;
     }
