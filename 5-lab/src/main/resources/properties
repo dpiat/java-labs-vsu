@@ -1,2 +1,2 @@
-repository.SomeInterface=implementaionClass.SomeImpl
-repository.SomeOtherInterface=implementaionClass.SODoer
+repository.SomeInterface=implementationClass.SomeImpl
+repository.SomeOtherInterface=implementationClass.SODoer

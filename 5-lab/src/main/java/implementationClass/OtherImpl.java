@@ -1,4 +1,4 @@
-package implementaionClass;
+package implementationClass;
 
 import repository.SomeInterface;
 
