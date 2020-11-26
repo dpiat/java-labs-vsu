@@ -1,0 +1,2 @@
+repository.SomeInterface=implementaionClass.SomeImpl
+repository.SomeOtherInterface=implementaionClass.SODoer
