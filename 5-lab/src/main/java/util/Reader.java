@@ -6,6 +6,14 @@ import java.io.FileReader;
 import java.io.IOException;
 
 public class Reader {
+
+    /**
+     * Метод принимает название интерфейса и ищет в файле properties
+     * название имплементирующего класса
+     *
+     * @param interfaceName - название интерфейса
+     * @return
+     */
     public static String getImplementationClass(String interfaceName) {
         String csvFilePath = "src\\main\\resources\\properties";
         try {
