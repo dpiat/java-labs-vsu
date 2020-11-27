@@ -12,7 +12,7 @@ public class Reader {
      * название имплементирующего класса
      *
      * @param interfaceName - название интерфейса
-     * @return
+     * @return название имплементирующего класса
      */
     public static String getImplementationClass(String interfaceName) {
         String csvFilePath = "src\\main\\resources\\properties";
